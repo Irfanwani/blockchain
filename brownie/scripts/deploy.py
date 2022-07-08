@@ -1,10 +1,10 @@
-from brownie import accounts, SimpleStorage
+from brownie import accounts, SimpleStorage, network, config
 
 
 def deploy_simple_storage():
-    account = accounts[
-        0
-    ]  # brownie spins up 10 accounts for us and we are using the first one here
+    account = (
+        get_account()
+    )  # brownie spins up 10 accounts for us and we are using the first one here
     # print(account)
 
     # account = accounts.load("testaccount") # password encrypted account created using `brownie accounts new`
@@ -22,6 +22,14 @@ def deploy_simple_storage():
     print(new_val)
 
 
+def get_account():
+    if network.show_active() == "development":
+        return accounts[0]
+    else:
+        account = accounts.add(config["wallets"]["from_key"])
+
+        return account
+
+
 def main():
     deploy_simple_storage()
- 

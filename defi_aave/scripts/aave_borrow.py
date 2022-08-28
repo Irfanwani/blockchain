@@ -33,10 +33,10 @@ def main():
     ]
     link_eth_price = get_asset_price(link_eth_price_feed)
 
-    amount_link_to_borrow = (borrowable_eth * 0.95) / link_eth_price
+    amount_link_to_borrow = (borrowable_eth * 100) / link_eth_price
 
     print(
-        f"Borrowing {amount_link_to_borrow} LINK ({Web3.toWei(borrowable_eth*0.95, 'ether')} wei)"
+        f"Borrowing {amount_link_to_borrow} LINK ({Web3.toWei(borrowable_eth*100, 'ether')} wei)"
     )
 
     link_address = config["networks"][network.show_active()]["link_token"]
@@ -44,7 +44,7 @@ def main():
     borrow_tx = lending_pool.borrow(
         link_address,
         Web3.toWei(amount_link_to_borrow, "ether"),
-        1,
+        2,
         0,
         account.address,
         {"from": account},
@@ -70,7 +70,7 @@ def repay_all(amount, lending_pool, account):
     repay_tx = lending_pool.repay(
         config["networks"][network.show_active()]["link_token"],
         amount,
-        1,
+        2,
         account.address,
         {"from": account},
     )

@@ -25,7 +25,7 @@ def main():
     )
     tx.wait(1)
     print("Deposited!!!")
-    borrowable_eth, total_debt = get_borrowable_data(lending_pool, account)
+    borrowable_eth = get_borrowable_data(lending_pool, account)
     print("lets borrow!!")
 
     link_eth_price_feed = config["networks"][network.show_active()][
@@ -54,7 +54,7 @@ def main():
     print("we borrowed some link")
     get_borrowable_data(lending_pool, account)
 
-    repay_all(amount, lending_pool, account)
+    repay_all(Web3.toWei(amount_link_to_borrow, "ether"), lending_pool, account)
 
     print("You just deposited , borrowed and repayed with aave, brownie and chainlink")
 
@@ -101,11 +101,10 @@ def get_borrowable_data(lending_pool, account):
     available_borrow_eth = Web3.fromWei(available_borrow_eth, "ether")
     total_collateral_eth = Web3.fromWei(total_collateral_eth, "ether")
     total_debt_eth = Web3.fromWei(total_debt_eth, "ether")
-
-    print(f"You have {total_collateral_eth} worth of eth deposited")
-    print(f"You have {total_debt_eth} worth of eth borrowed")
-    print(f"You can borrow {available_borrow_eth} worth of eth")
-    return (float(available_borrow_eth), float(total_debt_eth))
+    print(f"You have {total_collateral_eth} worth of ETH deposited.")
+    print(f"You have {total_debt_eth} worth of ETH borrowed.")
+    print(f"You can borrow {available_borrow_eth} worth of ETH.")
+    return float(available_borrow_eth)
 
 
 def approve_erc20(amount, spender, erc20_address, account):
